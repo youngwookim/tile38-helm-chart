@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "tile38.fullname" . }}-prometheus
+  labels:
+    app: {{ template "tile38.name" . }}
+    chart: {{ template "tile38.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    role: prometheus
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: prom
+  selector:
+    app: {{ template "tile38.name" . }}
+    release: {{ .Release.Name }}
+    role: prometheus

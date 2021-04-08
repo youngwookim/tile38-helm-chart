@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "tile38.fullname" . }}-prometheus
+  labels:
+    app: {{ template "tile38.name" . }}
+    chart: {{ template "tile38.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    role: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "tile38.name" . }}
+      release: {{ .Release.Name }}
+      role: prometheus
+  template:
+    metadata:
+      labels:
+        app: {{ template "tile38.name" . }}
+        release: {{ .Release.Name }}
+        role: prometheus
+    spec:
+      containers:
+        - name: tile38-prometheus
+          image: tile38/tile38-prometheus
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: TILE38_ADDR
+            value: {{ template "tile38.fullname" . }}-leader:{{ .Values.service.port }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+{{ toYaml .Values.leader.resources | indent 12 }}
+    {{- with .Values.leader.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.leader.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.leader.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

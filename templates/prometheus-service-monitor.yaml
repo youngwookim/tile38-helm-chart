@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: tile38-prom-service-monitor
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "tile38.name" . }}
+      release: {{ .Release.Name }}
+      role: prometheus
+  endpoints:
+  - port: prom

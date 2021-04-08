@@ -1,4 +1,8 @@
-/!\ Unmaintained
+Copied from https://github.com/nouney/chart-tile38
+
+Modifications:
+- Bump up Tile38 version
+- Add ```tile38-prometheus``` for exporting metrics
 
 # Tile38
 
@@ -23,7 +27,7 @@ The following table lists the configurable parameters of the Tile38 chart and th
 | Parameter                  | Description                                     | Default                                                    |
 | -----------------------    | ---------------------------------------------   | ---------------------------------------------------------- |
 | `image`                    | `tile38` image repository                       | `tile38/tile38`                                            |
-| `imageTag`                 | `postgres` image tag                            | `1.12.13`                                                  |
+| `imageTag`                 | `tile38` image tag                            | `1.23.0`                                                  |
 | `imagePullPolicy`          | Image pull policy                               | `IfNotPresent`                                             |
 | `service.port`             | TCP port                                        | `9851`                                                     |
 | `service.type`             | k8s service type exposing ports, e.g. `NodePort`| `ClusterIP`                                                |
